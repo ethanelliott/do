@@ -1,0 +1,20 @@
+{
+  "name": "do",
+  "author": "Ethan",
+  "description": "do things",
+  "version": "1.0.0",
+  "license": "MIT",
+  "main": "src/main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "devDependencies": {
+    "electron": "11.3.0"
+  },
+  "dependencies": {
+    "diskdb": "^0.1.17",
+    "glob": "^7.1.6",
+    "node-media-controller": "^0.0.6",
+    "open": "^8.0.2"
+  }
+}

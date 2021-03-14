@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        html {
+            overflow: hidden;
+        }
+
+        body {
+            width: 100vw;
+            height: 100vh;
+        }
+
+        .main-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 2px solid grey;
+            width: calc(100% - 20px);
+            height: calc(100% - 20px);
+            border-radius: 20px;
+            margin: 10px;
+            background: #181818;
+        }
+
+        .main-input {
+            height: 100%;
+            flex: 1 0 auto;
+            font-size: 30px;
+            border: none;
+            outline: none;
+            background: transparent;
+            color: white;
+        }
+
+        .chevron-icon {
+            height: 40px;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="main-wrapper">
+    <img class="chevron-icon" src="./assets/chevron.png">
+    <input id="search" class="main-input" autofocus type="text">
+</div>
+<script>
+    const { ipcRenderer } = require('electron');
+    const searchBar = document.getElementById("search");
+    document.onreadystatechange = (ev) => {
+        setTimeout(() => {
+            searchBar.focus();
+        }, 200);
+    }
+
+    document.addEventListener('keypress', ({key, altKey, ctrlKey, shiftKey}) => {
+        if (key === 'Enter' && !altKey && !ctrlKey && !shiftKey) {
+            ipcRenderer.send('run', searchBar.value);
+        }
+    });
+
+    ipcRenderer.on('data', (event, arg) => {
+        console.log(event, arg);
+    });
+
+</script>
+</body>
+</html>
