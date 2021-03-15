@@ -6,15 +6,59 @@
   "license": "MIT",
   "main": "src/main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron-forge start",
+    "package": "electron-forge package",
+    "make": "electron-forge make"
   },
   "devDependencies": {
+    "@electron-forge/cli": "^6.0.0-beta.54",
+    "@electron-forge/maker-deb": "^6.0.0-beta.54",
+    "@electron-forge/maker-rpm": "^6.0.0-beta.54",
+    "@electron-forge/maker-squirrel": "^6.0.0-beta.54",
+    "@electron-forge/maker-zip": "^6.0.0-beta.54",
     "electron": "11.3.0"
   },
   "dependencies": {
+    "axios": "^0.21.1",
+    "body-parser": "^1.19.0",
+    "bonjour": "^3.5.0",
     "diskdb": "^0.1.17",
+    "electron-squirrel-startup": "^1.0.0",
+    "express": "^4.17.1",
+    "get-port": "^5.1.1",
     "glob": "^7.1.6",
+    "internal-ip": "^6.2.0",
+    "is-ipv4-node": "^1.0.6",
     "node-media-controller": "^0.0.6",
-    "open": "^8.0.2"
+    "open": "^8.0.2",
+    "socket-io": "^1.0.0",
+    "uuid": "^8.3.2"
+  },
+  "config": {
+    "forge": {
+      "packagerConfig": {},
+      "makers": [
+        {
+          "name": "@electron-forge/maker-squirrel",
+          "config": {
+            "name": "do"
+          }
+        },
+        {
+          "name": "@electron-forge/maker-zip",
+          "platforms": [
+            "darwin"
+          ]
+        },
+        {
+          "name": "@electron-forge/maker-deb",
+          "config": {}
+        },
+        {
+          "name": "@electron-forge/maker-rpm",
+          "config": {}
+        }
+      ]
+    }
   }
 }

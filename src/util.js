@@ -1,6 +1,7 @@
 const {screen} = require('electron');
+const path = require('path');
 
-function openWindowOnCursorScreen(w) {
+const openWindowOnCursorScreen = (w) => {
     const point = screen.getCursorScreenPoint();
     const {bounds} = screen.getDisplayNearestPoint(point);
     const [width, height] = w.getSize();
@@ -9,6 +10,16 @@ function openWindowOnCursorScreen(w) {
     w.show();
 }
 
+const pathFromRoot = (p) => {
+    return path.resolve(__dirname, p);
+}
+
+const getIcon = () => {
+    return pathFromRoot('assets/run.ico');
+}
+
 module.exports = {
-    openWindowOnCursorScreen
+    openWindowOnCursorScreen,
+    getIcon,
+    pathFromRoot
 }
