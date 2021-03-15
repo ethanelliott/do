@@ -1,21 +1,21 @@
-const {openWindowOnCursorScreen} = require("../../util");
 const {BaseCommand} = require('../base-command');
-const {BrowserWindow} = require('electron');
+const {BrowserWindow, screen} = require('electron');
+const {openWindowOnCursorScreen} = require("../../util");
 
-class Help extends BaseCommand {
+class Settings extends BaseCommand {
     constructor() {
         super();
-        this.name = 'Help Menu';
-        this.description = 'AH! WHAT DO I DO?!';
-        this.prefix = 'help';
+        this.name = 'Settings';
+        this.description = 'settings window';
+        this.prefix = 'settings';
     }
 
     handler(c) {
         super.handler(c);
-        this.openHelpWindow();
+        this.openSettingsWindow();
     }
 
-    openHelpWindow() {
+    openSettingsWindow() {
         const win = new BrowserWindow({
             webPreferences: {
                 nodeIntegration: true,
@@ -32,4 +32,4 @@ class Help extends BaseCommand {
     }
 }
 
-module.exports = {command: Help};
+module.exports = {command: Settings};

@@ -1,6 +1,7 @@
 'use strict';
-const {app, BrowserWindow, screen, ipcMain, globalShortcut} = require('electron');
+const {app, BrowserWindow, ipcMain, globalShortcut} = require('electron');
 const glob = require('glob');
+const {openWindowOnCursorScreen} = require("./util");
 
 const WIDTH = 600;
 const HEIGHT = 80;
@@ -8,6 +9,18 @@ const HEIGHT = 80;
 let win = null;
 
 const plugins = {} // key is prefix, object is command handler
+
+const openSettings = () => {
+    const settingsWindow = new BrowserWindow({
+        webPreferences: {
+            nodeIntegration: true,
+            contextIsolation: false,
+        },
+       show: true
+    });
+    settingsWindow.loadFile('./src/settings.html');
+    openWindowOnCursorScreen(settingsWindow);
+};
 
 const showWindow = () => {
     if (win !== null) {
@@ -42,7 +55,7 @@ const showWindow = () => {
 
     win.loadFile('./src/index.html');
 
-    win.webContents.openDevTools({mode: "detach", activate: false})
+    // win.webContents.openDevTools({mode: "detach", activate: false})
 
     win.on('show', () => {
         setTimeout(() => {
@@ -55,11 +68,7 @@ const showWindow = () => {
     win.on('closed', () => {
         win = null;
     });
-    const point = screen.getCursorScreenPoint();
-    const {bounds} = screen.getDisplayNearestPoint(point);
-    win.setPosition(bounds.x + (bounds.width / 2) - (WIDTH / 2),
-        bounds.y + (bounds.height / 2) - (HEIGHT / 2),);
-    win.show();
+    openWindowOnCursorScreen(win);
 }
 
 const loadPlugins = () => {
@@ -84,7 +93,7 @@ const closeWindow = () => {
     try {
         win.close();
     } catch (e) {
-        console.log(e);
+        console.error(e);
     }
 }
 
@@ -114,6 +123,15 @@ const main = async () => {
 ipcMain.on('run', (event, arg) => {
     doAction(arg);
     closeWindow();
+});
+
+ipcMain.on('close', () => {
+    closeWindow();
+});
+
+ipcMain.on('settings', () => {
+    closeWindow();
+    openSettings();
 })
 
 app.on('browser-window-blur', () => {

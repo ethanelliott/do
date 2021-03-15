@@ -28,7 +28,7 @@
             border: 2px solid grey;
             width: calc(100% - 20px);
             height: calc(100% - 20px);
-            border-radius: 20px;
+            border-radius: 50vh;
             margin: 10px;
             background: #181818;
         }
@@ -55,7 +55,7 @@
     <input id="search" class="main-input" autofocus type="text">
 </div>
 <script>
-    const { ipcRenderer } = require('electron');
+    const {ipcRenderer} = require('electron');
     const searchBar = document.getElementById("search");
     document.onreadystatechange = (ev) => {
         setTimeout(() => {
@@ -63,11 +63,15 @@
         }, 200);
     }
 
-    document.addEventListener('keypress', ({key, altKey, ctrlKey, shiftKey}) => {
+    document.onkeyup = (c) => {
+        const {key, altKey, ctrlKey, shiftKey} = c;
         if (key === 'Enter' && !altKey && !ctrlKey && !shiftKey) {
             ipcRenderer.send('run', searchBar.value);
         }
-    });
+        if (key === 'Escape' && !altKey && !ctrlKey && !shiftKey) {
+            ipcRenderer.send('close');
+        }
+    };
 
     ipcRenderer.on('data', (event, arg) => {
         console.log(event, arg);
