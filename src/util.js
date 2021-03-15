@@ -1,5 +1,6 @@
 const {screen} = require('electron');
 const path = require('path');
+const os = require('os');
 
 const openWindowOnCursorScreen = (w) => {
     const point = screen.getCursorScreenPoint();
@@ -14,6 +15,10 @@ const pathFromRoot = (p) => {
     return path.resolve(__dirname, p);
 }
 
+const configPath = () => {
+    return path.resolve(os.homedir(), '.do')
+}
+
 const getIcon = () => {
     return pathFromRoot('assets/run.ico');
 }
@@ -21,5 +26,6 @@ const getIcon = () => {
 module.exports = {
     openWindowOnCursorScreen,
     getIcon,
-    pathFromRoot
+    pathFromRoot,
+    configPath
 }

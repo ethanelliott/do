@@ -2,13 +2,18 @@ const {BaseCommand} = require('../base-command');
 const {Storage} = require('../local-storage');
 const open = require('open');
 
+const tableName = 'go-mappings';
+
 class Go extends BaseCommand {
     constructor() {
         super();
         this.name = 'Go';
         this.description = 'go places and do things';
         this.prefix = 'go';
-        this.db = Storage.getInstance(['m']);
+        this.db = Storage.getInstance([tableName]);
+        if (this.getMappings().length === 0) {
+            this.newGo('ethan', 'https://ethanelliott.ca');
+        }
     }
 
     handler(c) {
@@ -24,7 +29,14 @@ class Go extends BaseCommand {
     }
 
     getMappings() {
-        return this.db.findAll('m');
+        return this.db.findAll(tableName);
+    }
+
+    newGo(name, url) {
+        this.db.save(tableName, {
+            name,
+            url
+        })
     }
 }
 

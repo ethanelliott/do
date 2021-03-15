@@ -1,9 +1,11 @@
 const DB = require('diskdb');
 const path = require('path');
 const fs = require('fs');
+const {configPath} = require("../util");
+
 
 class Storage {
-    static DB_PATH = path.resolve(process.cwd(), 'db')
+    static DB_PATH = path.resolve(configPath(), 'storage')
 
     static #instance = null;
 
