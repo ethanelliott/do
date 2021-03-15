@@ -2,7 +2,7 @@
   "name": "do",
   "author": "Ethan",
   "description": "do things",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "license": "MIT",
   "main": "src/main.js",
   "scripts": {
