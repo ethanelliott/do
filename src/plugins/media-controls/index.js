@@ -1,18 +1,17 @@
 const {BaseCommand} = require('../base-command');
 const mediaController = require('node-media-controller');
 
-class Spotify extends BaseCommand {
+class MediaControls extends BaseCommand {
     constructor() {
         super();
-        this.name = 'Spotify Control';
+        this.name = 'Media Controls';
         this.description = 'Play, Pause, and skip tracks with a command';
-        this.prefix = 's';
+        this.command = 's';
     }
 
     handler(c) {
         super.handler(c);
         const tokens = c.split(' ');
-        console.log(tokens);
         if (mediaController.getCommands().includes(tokens[1])) {
             mediaController.executeCommand(tokens[1], (err) => {
                 if (err) {
@@ -23,4 +22,4 @@ class Spotify extends BaseCommand {
     }
 }
 
-module.exports = {command: Spotify};
+module.exports = {command: MediaControls};

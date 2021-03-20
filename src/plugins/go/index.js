@@ -9,7 +9,7 @@ class Go extends BaseCommand {
         super();
         this.name = 'Go';
         this.description = 'go places and do things';
-        this.prefix = 'go';
+        this.command = 'go';
         this.db = Storage.getInstance([tableName]);
         if (this.getMappings().length === 0) {
             this.newGo('ethan', 'https://ethanelliott.ca');

@@ -1,0 +1,143 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+html {
+    overflow: hidden;
+}
+
+body {
+    width: 100vw;
+    height: 100vh;
+    background: #181818;
+    color: white;
+    font-family: Roboto, sans-serif;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #222222;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+::-webkit-scrollbar-thumb {
+    background: #565656;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #2d2d2d;
+}
+
+.titlebar {
+    width: 100vw;
+    height: 30px;
+    background: #2D2C2C;
+    -webkit-user-select: none;
+    -webkit-app-region: drag;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+}
+
+.title {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.title img {
+    height: 25px;
+    margin-left: 10px;
+}
+
+.controls {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.controls button {
+    height: 30px;
+    outline: none;
+    border: none;
+    width: 30px;
+    -webkit-app-region: no-drag;
+    background: transparent;
+    transition: background 0.2s;
+}
+
+.controls button:hover {
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.controls button img {
+    height: 20px;
+}
+
+.controls .close:hover {
+    background: rgba(255, 0, 0, 0.2);
+}
+
+.content {
+    height: calc(100vh - 30px);
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+}
+
+.left-menu {
+    height: 100%;
+    width: 100%;
+    max-width: 300px;
+    background: #0e0e0e;
+    position: sticky;
+    top: 0;
+    left: 0;
+    box-shadow: 0 0 10px 2px rgba(0,0,0, 0.5);
+    overflow-y: auto;
+}
+
+.left-menu h1 {
+    font-size: 30px;
+    margin: 20px;
+    font-weight: lighter;
+}
+
+.right-scrollable-content {
+    height: 100%;
+    width: 100%;
+    overflow-y: auto;
+}
+
+.long {
+    height: 200vh;
+}
+
+.menu {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+
+.menu .menu-item {
+    width: calc(100% - 40px);
+    padding: 20px;
+    font-size: 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    transition: background 0.2s;
+}
+
+.menu .menu-item:hover {
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.1);
+}

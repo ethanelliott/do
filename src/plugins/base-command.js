@@ -2,7 +2,7 @@ class BaseCommand {
     constructor() {
         this.name = '';
         this.description = '';
-        this.prefix = '';
+        this.command = '';
     }
 
     handler(c) {

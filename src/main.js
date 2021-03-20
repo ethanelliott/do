@@ -35,16 +35,31 @@ const doAction = (commandString) => {
 }
 
 const main = async () => {
-    loadTrayMenu(plugins.getAll());
+    const activeWindows = [];
+    plugins.on('update', () => {
+        loadTrayMenu(plugins.getAll());
+        activeWindows.forEach(w => w.send('help:plugins', plugins.serialize()))
+    });
+
     globalShortcut.register('Alt+Space', () => {
         showWindow();
     });
+
     ipcMain.on('run', (event, arg) => {
         doAction(arg);
         closeWindow();
     });
+
     ipcMain.on('close', () => {
         closeWindow();
+    });
+
+    ipcMain.on('help:register-self', (event) => {
+        activeWindows.push(event.sender);
+    });
+
+    ipcMain.on('help:plugins', (event) => {
+        event.reply('help:plugins', plugins.serialize());
     });
 }
 

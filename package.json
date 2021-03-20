@@ -32,6 +32,7 @@
     "node-media-controller": "^0.0.6",
     "open": "^8.0.2",
     "socket-io": "^1.0.0",
+    "socket.io": "^4.0.0",
     "uuid": "^8.3.2"
   },
   "config": {

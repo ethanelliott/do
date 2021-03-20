@@ -6,28 +6,68 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Help</title>
-    <style>
-        * {
-            padding: 0;
-            margin: 0;
-        }
-
-        html {
-            overflow: hidden;
-        }
-
-        body {
-            width: 100vw;
-            height: 100vh;
-            background: #181818;
-            color: white;
-        }
-    </style>
+    <link rel="stylesheet" href="../../assets/style/main.css">
 </head>
 <body>
-<h1>help</h1>
+<div class="titlebar">
+    <div class="title">
+        <img src="../../assets/run.png">
+    </div>
+    <div class="controls">
+        <button class="minimize">
+            <img src="../../assets/minimize.png">
+        </button>
+        <button class="close">
+            <img src="../../assets/close.png">
+        </button>
+    </div>
+</div>
+<div class="content">
+    <div class="left-menu">
+        <h1>Help</h1>
+        <div class="menu">
+            <div class="menu-item">DO</div>
+        </div>
+    </div>
+    <div class="right-scrollable-content">
+        <div class="long"></div>
+    </div>
+</div>
 <script>
-    const {ipcRenderer} = require('electron');
+    const {remote, ipcRenderer} = require('electron');
+    const thisWindow = remote.getCurrentWindow();
+
+    document.querySelector('.minimize').addEventListener('click', () => {
+        if (thisWindow.minimizable) {
+            thisWindow.minimize();
+        }
+    });
+
+    document.querySelector('.close').addEventListener('click', () => {
+        if (thisWindow.closable) {
+            thisWindow.close();
+        }
+    });
+
+    ipcRenderer.send('help:register-self');
+    ipcRenderer.send('help:plugins');
+
+    ipcRenderer.on('help:plugins', (e, plugins) => {
+        console.log(plugins);
+        const newMenuItem = (name) => {
+            const menuItem = document.createElement('div');
+            menuItem.classList.add('menu-item');
+            menuItem.innerText = name;
+            return menuItem;
+        };
+        const menu = document.querySelector('.menu');
+        menu.innerHTML = '';
+        menu.appendChild(newMenuItem('DO'));
+        plugins.forEach(plugin => {
+            menu.appendChild(newMenuItem(plugin.name));
+        })
+
+    });
 
 </script>
 </body>

@@ -12,7 +12,13 @@ const buildMenuItem = (options) => {
 }
 
 const loadTrayMenu = (plugins) => {
-    tray = new Tray(getIcon());
+    if(!tray) {
+        tray = new Tray(getIcon());
+        tray.setToolTip('DO');
+        tray.on('click', () => {
+            showWindow();
+        })
+    }
     const template = [
         buildMenuItem({
             label: 'Help',
@@ -52,9 +58,8 @@ const loadTrayMenu = (plugins) => {
             role: 'quit'
         })
     ];
-    const contextMenu = Menu.buildFromTemplate(template);
-    tray.setToolTip('DO');
-    tray.setContextMenu(contextMenu);
+    tray.setContextMenu(Menu.buildFromTemplate(template));
+
 }
 
 module.exports = {loadTrayMenu};
