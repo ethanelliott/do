@@ -31,8 +31,8 @@ const loadTrayMenu = (plugins) => {
         }),
         buildMenuItem({
             label: 'Plugins',
-            submenu: Object.keys(plugins).map(p => ({
-                label: plugins[p].name
+            submenu: Array.from(plugins.values()).map(e => ({
+                label: e.name
             }))
         }),
         buildMenuItem({

@@ -38,7 +38,7 @@ const main = async () => {
     const activeWindows = [];
     plugins.on('update', () => {
         loadTrayMenu(plugins.getAll());
-        activeWindows.forEach(w => w.send('help:plugins', plugins.serialize()))
+        activeWindows.forEach(w => w.send('plugins', plugins.serialize()))
     });
 
     globalShortcut.register('Alt+Space', () => {
@@ -54,12 +54,12 @@ const main = async () => {
         closeWindow();
     });
 
-    ipcMain.on('help:register-self', (event) => {
+    ipcMain.on('register-self', (event) => {
         activeWindows.push(event.sender);
     });
 
-    ipcMain.on('help:plugins', (event) => {
-        event.reply('help:plugins', plugins.serialize());
+    ipcMain.on('plugins', (event) => {
+        event.reply('plugins', plugins.serialize());
     });
 }
 

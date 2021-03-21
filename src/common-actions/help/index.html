@@ -49,10 +49,10 @@
         }
     });
 
-    ipcRenderer.send('help:register-self');
-    ipcRenderer.send('help:plugins');
+    ipcRenderer.send('register-self');
+    ipcRenderer.send('plugins');
 
-    ipcRenderer.on('help:plugins', (e, plugins) => {
+    ipcRenderer.on('plugins', (e, plugins) => {
         console.log(plugins);
         const newMenuItem = (name) => {
             const menuItem = document.createElement('div');
