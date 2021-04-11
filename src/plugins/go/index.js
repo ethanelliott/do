@@ -1,6 +1,8 @@
 const {BaseCommand} = require('../base-command');
 const {Storage} = require('../local-storage');
 const open = require('open');
+const fs = require("fs");
+const path = require("path");
 
 const tableName = 'go-mappings';
 
@@ -10,6 +12,7 @@ class Go extends BaseCommand {
         this.name = 'Go';
         this.description = 'go places and do things';
         this.command = 'go';
+        this.docs = fs.readFileSync(path.resolve('./src/plugins/go/docs.md'), 'utf-8');
         this.db = Storage.getInstance([tableName]);
         if (this.getMappings().length === 0) {
             this.newGo('ethan', 'https://ethanelliott.ca');

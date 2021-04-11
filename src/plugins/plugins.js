@@ -57,7 +57,8 @@ class Plugins extends EventEmitter {
         return Array.from(this.plugins.values()).map(e => ({
             name: e.name,
             description: e.description,
-            command: e.command
+            command: e.command,
+            docs: e.docs
         }));
     }
 

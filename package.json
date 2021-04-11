@@ -19,6 +19,7 @@
     "electron": "11.3.0"
   },
   "dependencies": {
+    "auto-launch": "^5.0.5",
     "axios": "^0.21.1",
     "body-parser": "^1.19.0",
     "bonjour": "^3.5.0",
@@ -29,6 +30,7 @@
     "glob": "^7.1.6",
     "internal-ip": "^6.2.0",
     "is-ipv4-node": "^1.0.6",
+    "markdown-it": "^12.0.4",
     "node-media-controller": "^0.0.6",
     "open": "^8.0.2",
     "socket-io": "^1.0.0",

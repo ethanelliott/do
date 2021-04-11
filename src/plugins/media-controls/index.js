@@ -1,5 +1,7 @@
 const {BaseCommand} = require('../base-command');
 const mediaController = require('node-media-controller');
+const fs = require("fs");
+const path = require("path");
 
 class MediaControls extends BaseCommand {
     constructor() {
@@ -7,6 +9,7 @@ class MediaControls extends BaseCommand {
         this.name = 'Media Controls';
         this.description = 'Play, Pause, and skip tracks with a command';
         this.command = 's';
+        this.docs = fs.readFileSync(path.resolve('./src/plugins/media-controls/docs.md'), 'utf-8');
     }
 
     handler(c) {

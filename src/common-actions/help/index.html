@@ -30,12 +30,17 @@
         </div>
     </div>
     <div class="right-scrollable-content">
-        <div class="long"></div>
+        <div id="content"></div>
     </div>
 </div>
 <script>
-    const {remote, ipcRenderer} = require('electron');
+    const {remote, ipcRenderer, shell} = require('electron');
     const thisWindow = remote.getCurrentWindow();
+    const md = require('markdown-it')();
+
+    const menuItems = {};
+    let currentMenuItem = 0;
+    let mainDocs = '';
 
     document.querySelector('.minimize').addEventListener('click', () => {
         if (thisWindow.minimizable) {
@@ -51,24 +56,72 @@
 
     ipcRenderer.send('register-self');
     ipcRenderer.send('plugins');
+    ipcRenderer.send('main-docs');
 
     ipcRenderer.on('plugins', (e, plugins) => {
-        console.log(plugins);
-        const newMenuItem = (name) => {
-            const menuItem = document.createElement('div');
-            menuItem.classList.add('menu-item');
-            menuItem.innerText = name;
-            return menuItem;
-        };
         const menu = document.querySelector('.menu');
         menu.innerHTML = '';
-        menu.appendChild(newMenuItem('DO'));
+        let menuItemId = 0;
+        menu.appendChild(newMenuItem('DO', menuItemId++, mainDocs, (event, name, id) => {
+            menuContentSwitcher(id);
+        }));
         plugins.forEach(plugin => {
-            menu.appendChild(newMenuItem(plugin.name));
-        })
-
+            menu.appendChild(newMenuItem(plugin.name, menuItemId++, md.render(plugin.docs), (event, name, id) => {
+                menuContentSwitcher(id);
+            }));
+        });
+        renderDocsFor(currentMenuItem);
     });
 
+    ipcRenderer.on('main-docs', (e, docs) => {
+        mainDocs = md.render(docs);
+        menuItems[0].docs = mainDocs;
+        renderDocsFor(currentMenuItem);
+    });
+
+    const menuContentSwitcher = (id) => {
+        console.log('SWITCH', menuItems[id]);
+        currentMenuItem = id;
+        renderDocsFor(currentMenuItem);
+    };
+
+    const newMenuItem = (name, id, docs, callbackOnCLick) => {
+        const menuItem = document.createElement('div');
+        menuItem.classList.add('menu-item');
+        menuItem.innerText = name;
+        menuItem.id = `menu-item-${id}`;
+        menuItem.onclick = ev => {
+            console.log(`callback for ${id}: ${name}`)
+            callbackOnCLick(ev, name, id);
+        }
+        menuItems[id] = {
+            name,
+            docs
+        };
+        return menuItem;
+    };
+
+    const renderDocsFor = (id) => {
+        const docsHTML = menuItems[id].docs;
+        const contentDiv = document.querySelector('#content');
+        contentDiv.innerHTML = docsHTML;
+        const links = contentDiv.querySelectorAll('a');
+        links.forEach(l => {
+            const url = `${l.href}`;
+            l.onclick = () => {
+                shell.openExternal(url);
+            };
+            l.href = 'javascript:void(0)';
+        });
+        updateMenuActive(id);
+    };
+
+    const updateMenuActive = (id) => {
+        const aMI = document.querySelectorAll('.menu-item');
+        aMI.forEach(e => e.classList.remove('active'));
+        const mI = document.querySelector(`#menu-item-${id}`);
+        mI.classList.add('active');
+    }
 </script>
 </body>
 </html>

@@ -3,6 +3,7 @@ class BaseCommand {
         this.name = '';
         this.description = '';
         this.command = '';
+        this.docs = ''
     }
 
     handler(c) {

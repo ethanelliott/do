@@ -1,4 +1,6 @@
 'use strict';
+const fs = require("fs");
+const AutoLaunch = require("auto-launch");
 const {closeWindow} = require("./main-window");
 const {showWindow} = require("./main-window");
 const {Plugins} = require("./plugins/plugins");
@@ -35,6 +37,14 @@ const doAction = (commandString) => {
 }
 
 const main = async () => {
+    let autoLaunch = new AutoLaunch({
+        name: 'DO',
+        path: app.getPath('exe')
+    });
+    autoLaunch.isEnabled().then(isEnabled => {
+        if (!isEnabled) autoLaunch.enable();
+    });
+
     const activeWindows = [];
     plugins.on('update', () => {
         loadTrayMenu(plugins.getAll());
@@ -61,6 +71,12 @@ const main = async () => {
     ipcMain.on('plugins', (event) => {
         event.reply('plugins', plugins.serialize());
     });
+
+    ipcMain.on('main-docs', (event) => {
+        event.reply('main-docs', fs.readFileSync('./src/main-docs.md', 'utf-8'));
+    });
+
+    loadTrayMenu(plugins.getAll());
 }
 
 // prevent session from closing
