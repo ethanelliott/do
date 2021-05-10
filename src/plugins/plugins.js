@@ -73,6 +73,13 @@ class Plugins extends EventEmitter {
         throw new Error('Unknown plugin!');
     }
 
+    settings(plugin) {
+        if (this.has(plugin)) {
+            return this.plugins.get(plugin).settings();
+        }
+        throw new Error('Unknown plugin!');
+    }
+
     service;
 
     discoverLocalPlugins() {
@@ -93,6 +100,9 @@ class Plugins extends EventEmitter {
                 plugin.handler = (command) => {
                     console.log('HANDLE:', command);
                     this.socket.emit(socketId, 'command', command);
+                };
+                plugin.settings = () => {
+                    this.socket.emit(socketId, 'settings');
                 };
                 this.registerPlugin(plugin);
                 this.pluginSocketMap.set(socketId, plugin.command);

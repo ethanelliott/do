@@ -31,6 +31,10 @@ class Go extends BaseCommand {
         }
     }
 
+    settings() {
+        console.log(this.name, 'settings');
+    }
+
     getMappings() {
         return this.db.findAll(tableName);
     }

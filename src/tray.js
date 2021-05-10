@@ -2,7 +2,6 @@ const {getIcon} = require("./util");
 const {Menu, Tray, MenuItem} = require('electron');
 
 const {showWindow} = require("./main-window");
-const {openSettingsWindow} = require("./common-actions/settings");
 const {openHelpWindow} = require("./common-actions/help");
 
 let tray;
@@ -11,7 +10,8 @@ const buildMenuItem = (options) => {
     return new MenuItem(options);
 }
 
-const loadTrayMenu = (plugins) => {
+const loadTrayMenu = (pluginsStore) => {
+    const plugins = pluginsStore.getAll();
     if(!tray) {
         tray = new Tray(getIcon());
         tray.setToolTip('DO');
@@ -32,18 +32,27 @@ const loadTrayMenu = (plugins) => {
         buildMenuItem({
             label: 'Plugins',
             submenu: Array.from(plugins.values()).map(e => ({
-                label: e.name
+                label: e.name,
+                submenu: [
+                    {
+                        label: 'Settings',
+                        click() {
+                            console.log(`OPEN SETTINGS FOR ${e.name}`);
+                            pluginsStore.settings(e.command)
+                        }
+                    }
+                ]
             }))
         }),
-        buildMenuItem({
-            type: 'separator'
-        }),
-        buildMenuItem({
-            label: 'Settings',
-            click() {
-                openSettingsWindow()
-            }
-        }),
+        // buildMenuItem({
+        //     type: 'separator'
+        // }),
+        // buildMenuItem({
+        //     label: 'Settings',
+        //     click() {
+        //         openSettingsWindow()
+        //     }
+        // }),
         buildMenuItem({
             type: 'separator'
         }),

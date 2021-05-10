@@ -7,7 +7,7 @@ under the hood. (currently only supporting windows)
 
 ## Usage
 
-Just type `s play` to start playing music, or `s pause` to pause your music!
+Just type `m play` to start playing music, or `m pause` to pause your music!
 
 Command | Action
 --- | ---

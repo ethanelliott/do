@@ -10,6 +10,10 @@ class BaseCommand {
         // maybe something with command history here
         console.log('HANDLE:', c);
     }
+
+    settings() {
+        console.log('SETTINGS');
+    }
 }
 
 module.exports = {BaseCommand};

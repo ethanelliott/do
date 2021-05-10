@@ -8,7 +8,7 @@ class MediaControls extends BaseCommand {
         super();
         this.name = 'Media Controls';
         this.description = 'Play, Pause, and skip tracks with a command';
-        this.command = 's';
+        this.command = 'm';
         this.docs = fs.readFileSync(path.resolve('./src/plugins/media-controls/docs.md'), 'utf-8');
     }
 
@@ -22,6 +22,10 @@ class MediaControls extends BaseCommand {
                 }
             })
         }
+    }
+
+    settings() {
+        console.log(this.name, 'settings');
     }
 }
 

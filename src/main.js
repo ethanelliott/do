@@ -6,7 +6,6 @@ const {showWindow} = require("./main-window");
 const {Plugins} = require("./plugins/plugins");
 const {app, ipcMain, globalShortcut} = require('electron');
 const {openHelpWindow} = require('./common-actions/help')
-const {openSettingsWindow} = require('./common-actions/settings')
 const {loadTrayMenu} = require('./tray')
 
 const plugins = new Plugins();
@@ -28,7 +27,13 @@ const doAction = (commandString) => {
                 openHelpWindow();
                 break;
             case 'settings':
-                openSettingsWindow();
+                if (plugins.has(tokens[1])) {
+                    try {
+                        plugins.settings(tokens[1]);
+                    } catch (e) {
+                        console.error(`Settings [${tokens[0]}] ${e}`)
+                    }
+                }
                 break;
             default:
                 console.error('UNKNOWN COMMAND');
@@ -47,7 +52,7 @@ const main = async () => {
 
     const activeWindows = [];
     plugins.on('update', () => {
-        loadTrayMenu(plugins.getAll());
+        loadTrayMenu(plugins);
         activeWindows.forEach(w => w.send('plugins', plugins.serialize()))
     });
 
@@ -76,7 +81,7 @@ const main = async () => {
         event.reply('main-docs', fs.readFileSync('./src/main-docs.md', 'utf-8'));
     });
 
-    loadTrayMenu(plugins.getAll());
+    loadTrayMenu(plugins);
 }
 
 // prevent session from closing
